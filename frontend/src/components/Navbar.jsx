@@ -1,37 +1,72 @@
+import {useDispatch, useSelector} from "react-redux";
+import {useNavigate} from "react-router";
+import axios from "axios";
+import {removeUser} from "../utils/redux/userSlice.js";
+import {toast} from "react-toastify";
+import {Link} from "react-router-dom";
 
 const Navbar = () => {
+    const user = useSelector((store) => store.user)
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleSignOut = async () => {
+        try {
+            const res = await axios.post("http://localhost:7000/logout", {}, {
+                    withCredentials: true
+                }
+            );
+            dispatch(removeUser())
+           return  navigate("/login")
+        } catch (err) {
+            toast.error(err)
+        }
+
+    }
+
     return (
         <div>
-            <div className="navbar bg-base-200">
+            <div className="navbar bg-base-200 ">
                 <div className="flex-1">
-                    <a className="btn btn-ghost text-xl">devTinder</a>
+                    <Link to="/feed" className="btn btn-ghost text-xl">👩‍💻 DevTinder</Link>
                 </div>
-                <div className="flex-none gap-2">
-                    <div className="form-control">
-                        <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto"/>
-                    </div>
-                    <div className="dropdown dropdown-end">
-                        <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                            <div className="w-10 rounded-full">
-                                <img
-                                    alt="Tailwind CSS Navbar component"
-                                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/>
-                            </div>
+                {user ? (<div className="flex-none gap-2">
+                        <div>
+                            <p>Hello , {user.firstName}</p>
                         </div>
-                        <ul
-                            tabIndex={0}
-                            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
-                            <li>
-                                <a className="justify-between">
-                                    Profile
-                                    <span className="badge">New</span>
-                                </a>
-                            </li>
-                            <li><a>Settings</a></li>
-                            <li><a>Logout</a></li>
-                        </ul>
-                    </div>
-                </div>
+                        <div className="dropdown dropdown-end">
+                            <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
+                                <div className="w-10 rounded-full">
+                                    <img
+                                        alt="Tailwind CSS Navbar component"
+                                        src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"/>
+                                </div>
+                            </div>
+                            <ul
+                                tabIndex={0}
+                                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
+                                <li>
+                                    <Link to="/profile" className="justify-between" >
+                                        Profile
+                                        <span className="badge">New</span>
+                                    </Link>
+                                </li>
+                                <li><a>Settings</a></li>
+                                <li>
+                                    <a onClick={handleSignOut}>Logout</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>) :
+                    (
+                        <div>
+                            <button className="btn btn-outline btn-warning"
+                                    onClick={() => navigate("/login")}
+                            >Login In
+                            </button>
+                        </div>
+                    )
+                }
             </div>
         </div>
     )

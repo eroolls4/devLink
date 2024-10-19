@@ -1,8 +1,10 @@
 import React from 'react';
 
-function Feed(props) {
+const Feed=() =>{
     return (
-        <div>Hello from feed</div>
+        <div>
+            <h1>HELLOOO FROM FEED</h1>
+        </div>
     );
 }
 
