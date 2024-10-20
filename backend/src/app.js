@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express")
 const app = express();
 const {adminAuth, userAuth} = require("./middlewares/auth")
@@ -13,6 +14,7 @@ const profileRoute=require("./routes/profile")
 const requestRoute=require("./routes/request")
 const userRoute=require("./routes/user")
 const cors=require("cors")
+
 
 const corsOptions= {
     origin: 'http://localhost:5173',
