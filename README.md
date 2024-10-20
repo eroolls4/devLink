@@ -2,6 +2,7 @@
 
 **devLink** is a matchmaking platform designed exclusively for developers. It functions similarly to Tinder but helps developers connect with each other for potential collaborations, networking, or mentorship.
 
+
 ## Features
 
 - **Authentication**: Signup, login, and logout functionalities.
