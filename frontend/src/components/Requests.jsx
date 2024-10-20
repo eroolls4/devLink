@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
 import axios from "axios";
-import {addRequest} from "../utils/redux/requestsSlice.js";
+import {addRequest, removeRequest} from "../utils/redux/requestsSlice.js";
+
 
 const Requests = () => {
     const dispatch = useDispatch();
@@ -18,13 +19,27 @@ const Requests = () => {
                 "http://localhost:7000/user/requests/received",
                 {withCredentials : true}
             )
+            console.log(res)
             dispatch(addRequest(res.data.data))
         }catch (err){
             console.log(err.message)
         }
     }
 
-    if(requests.length ===0) return (<div className="flex items-center justify-center m-8 text-white font-bold"><h1>No requests yet ...</h1></div>)
+   const reviewRequest = async (status,id) => {
+        try{
+            const res=await axios.post(
+                "http://localhost:7000/request/review/" + status + "/" + id,
+                {},
+                {withCredentials : true}
+            )
+            dispatch(removeRequest(id));
+        }catch (err){
+            console.log(err.message)
+        }
+    }
+
+    if(requests.length ===0) return (<div className="flex items-center justify-center m-8 text-white font-bold">No requests yet ...</div>)
 
     return (
         <div className="text-center my-10">
@@ -69,9 +84,9 @@ const Requests = () => {
                         </div>
                     </div>
                 );
-            })};
+            })}
         </div>
-    );
+    )
 };
 
 export default Requests;

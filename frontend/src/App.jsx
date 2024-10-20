@@ -14,7 +14,6 @@ import Connections from "./components/Connections.jsx";
 
 function App() {
 
-
     return (
         <Provider store={appStore}>
             <BrowserRouter basename="/">

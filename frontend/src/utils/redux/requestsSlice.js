@@ -1,19 +1,14 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {addUniqueItems,removeItem,clearState} from "./reduxHelpers.js";
 
 
 const requestsSlice = createSlice({
-    name: "request",
+    name: "requests",
     initialState: [],
     reducers: {
-        addRequest: (state, action) => {
-            return  [...new Set([...state ,...action.payload])];
-        },
-        removeRequest: (state, action) => {
-            return state.filter((conn) => conn._id !== action.payload._id)
-        },
-        clearSlice: () => {
-            return null;
-        }
+        addRequest: (state, action) => addUniqueItems(state, action),
+        removeRequest: (state, action) => removeItem(state, action),
+        clearSlice: clearState
     }
 })
 

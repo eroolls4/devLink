@@ -4,6 +4,7 @@ const ConnectionRequestModel = require("../models/connectionRequest");
 const UserModel = require("../models/user")
 const userRouter = express.Router()
 
+const USER_SAFE_DATA = "firstName lastName photoUrl age gender about skills";
 
 userRouter.get(
     "/user/requests/received",
@@ -15,7 +16,7 @@ userRouter.get(
             const getAllPendingRequests = await ConnectionRequestModel.find({
                 toUserId: loggedInUser._id,
                 status: "interested"
-            }).populate("fromUserId", ["firstName", "lastName"]);
+            }).populate("fromUserId", USER_SAFE_DATA);
 
             res.json({
                 message: "Data fetched successfully",
@@ -111,8 +112,16 @@ userRouter.get(
              .skip(toSkip)
              .limit(limit)
 
-
-            res.send(properUsers)
+             const totalUsers = await UserModel.countDocuments({
+                _id: { $nin: Array.from(hideUsersFromFeed) }
+            });
+            
+            const totalPages = Math.ceil(totalUsers / limit);
+            
+            res.json({
+                properUsers, 
+                totalPages
+            });
 
         } catch (err) {
             res.status(404).send(err.message)

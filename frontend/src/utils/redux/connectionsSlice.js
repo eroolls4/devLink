@@ -1,24 +1,15 @@
 import {createSlice} from "@reduxjs/toolkit";
+import {addUniqueItems, removeItem, clearState} from "./reduxHelpers.js";
 
 const connectionsSlice = createSlice({
-    name: "connection",
+    name: "connections",
     initialState: [],
     reducers: {
-        addConnection: (state, action) => {
-            const existingIds = state.map(conn => conn._id);
-            const newConnections = action.payload.filter(conn => !existingIds.includes(conn._id));
-            return [...state, ...newConnections];
-        },
-        removeConnection : (state,action) => {
-           return state.filter( (conn) => conn._id !== action.payload._id)
-        },
-        clearSlice : () => {
-            return null;
-        }
+        addConnection: (state, action) => addUniqueItems(state, action),
+        removeConnection: (state, action) => removeItem(state, action),
+        clearSlice: clearState
     }
 })
 
-
-
-export const {addConnection,removeConnection,clearSlice} =connectionsSlice.actions;
+export const {addConnection, removeConnection, clearSlice} = connectionsSlice.actions;
 export default connectionsSlice.reducer;

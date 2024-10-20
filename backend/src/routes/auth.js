@@ -21,8 +21,10 @@ authRouter.post(
                 password: hashedPassword,
             })
 
-            await newUserObj.save()
-            res.send("added user to DB")
+           const user= await newUserObj.save()
+            res.json({message : "added user to DB" ,
+                 user
+            })
         } catch (err) {
             res.status(400).send(err.message)
         }
