@@ -43,8 +43,8 @@ userRouter.get(
                     {toUserId: loggedInUser._id, status: "accepted"},
                     {fromUserId: loggedInUser._id, status: "accepted"}
                 ]
-            }).populate("fromUserId", ["firstName", "lastName"])
-                .populate("fromUserId", ["firstName", "lastName"]);
+            }).populate("fromUserId", ["firstName", "lastName", "photoUrl", "age", "gender", "about"])
+              .populate("toUserId", ["firstName", "lastName", "photoUrl", "age", "gender", "about"]);
 
             const data = getAllUserConnections.map((row) => {
                 if (row.fromUserId._id.toString() === loggedInUser._id.toString()) {
@@ -107,7 +107,7 @@ userRouter.get(
                         $nin: Array.from(hideUsersFromFeed)
                     }
                 }
-            ).select("firstName lastName emailId")
+            ).select("firstName lastName emailId photoUrl")
              .skip(toSkip)
              .limit(limit)
 

@@ -8,6 +8,8 @@ import Feed from "./components/Feed.jsx";
 import {Provider} from "react-redux";
 import appStore from "./utils/redux/appStore.js";
 import 'react-toastify/dist/ReactToastify.css';
+import Requests from "./components/Requests.jsx";
+import Connections from "./components/Connections.jsx";
 
 
 function App() {
@@ -21,6 +23,8 @@ function App() {
                         <Route path="/login" element={<Login/>}/>
                         <Route path="/profile" element={<Profile/>}/>
                         <Route path="/feed" element={<Feed/>}/>
+                        <Route path="/requests" element={<Requests/>}/>
+                        <Route path="/connections" element={<Connections/>}/>
                     </Route>
                 </Routes>
             </BrowserRouter>

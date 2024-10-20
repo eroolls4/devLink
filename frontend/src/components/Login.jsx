@@ -14,27 +14,31 @@ const Login = () => {
 
     const handleLogin = async () => {
         try {
-            const res = await axios.post("http://localhost:7000/login", {
+            const res = await axios.post("http://localhost:7000/login",
+                {
                     emailId,
                     password,
-                }, {
+                },
+                {
                     withCredentials: true
                 }
             );
 
-            toast.success("Logged in successfully");
+            console.log(res)
 
+            dispatch(addUser(res.data.data))
+
+            toast.success("Logged in successfully");
             setTimeout(() => {
-                dispatch(addUser(res.data))
                 navigate("/feed")
             }, 2000);
 
         } catch (err) {
 
-            if(err.status === 404){
-               return toast.error("Invalid credentials",{
-                   position : "top-right"
-               })
+            if (err.status === 404) {
+                return toast.error("Invalid credentials", {
+                    position: "top-right"
+                })
             }
             console.log(err.message)
         }

@@ -4,6 +4,7 @@ import axios from "axios";
 import {removeUser} from "../utils/redux/userSlice.js";
 import {toast} from "react-toastify";
 import {Link} from "react-router-dom";
+import {clearFeed} from "../utils/redux/feedSlice.js";
 
 const Navbar = () => {
     const user = useSelector((store) => store.user)
@@ -17,7 +18,8 @@ const Navbar = () => {
                 }
             );
             dispatch(removeUser())
-           return  navigate("/login")
+            dispatch(clearFeed())
+            navigate("/login")
         } catch (err) {
             toast.error(err)
         }
@@ -46,12 +48,18 @@ const Navbar = () => {
                                 tabIndex={0}
                                 className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow">
                                 <li>
-                                    <Link to="/profile" className="justify-between" >
+                                    <Link to="/profile" className="justify-between">
                                         Profile
                                         <span className="badge">New</span>
                                     </Link>
                                 </li>
-                                <li><a>Settings</a></li>
+                                <li>
+                                    <Link to="/connections"> Connections</Link>
+                                </li>
+                                <li>
+                                    <Link to="/requests"> Requests</Link>
+                                </li>
+
                                 <li>
                                     <a onClick={handleSignOut}>Logout</a>
                                 </li>
